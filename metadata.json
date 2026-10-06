@@ -1,0 +1,6 @@
+{
+  "name": "Wishlist — Что подарить.",
+  "description": "Премиальный вишлист подарков с живым бронированием, фильтрами и тёмной эстетикой.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

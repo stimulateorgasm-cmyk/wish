@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Wishlist — Что подарить.</title>
+  <meta name="description" content="Премиальный вишлист подарков с живым бронированием, фильтрами и тёмной эстетикой." />
+  <meta property="og:title" content="Wishlist — Что подарить." />
+  <meta property="og:description" content="Премиальный вишлист подарков с живым бронированием, фильтрами и тёмной эстетикой." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Top Subtle Brand Bar -->
+    <header class="brand-bar" role="banner">
+      <div class="brand-monogram">
+        Wishlist
+      </div>
+      <div class="brand-actions">
+        <button id="btn-share-wishlist" class="btn-share" type="button" title="Поделиться списком">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <span class="btn-share-text">Поделиться</span>
+        </button>
+        <div class="brand-stats" aria-live="polite">
+          Свободно: <span id="active-items-count">0</span> из <span id="total-items-count">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Wishlist Progress Bar -->
+    <div class="progress-track" title="Прогресс бронирования вишлиста" aria-hidden="true">
+      <div id="wishlist-progress-bar" class="progress-bar" style="width: 0%;"></div>
+    </div>
+
+    <!-- Editorial Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-tag">Кураторский вишлист</div>
+      <h1 id="hero-title" class="hero-title">
+        Что подарить. <span>И что точно не надо.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Если вы открыли эту страницу — значит, мой повод опасно близко. Список выверен, вкусы согласованы, а сюрпризы в виде третьего чайника или сервиза исключены. Выберите то, что откликается, и нажмите «Забронировать», чтобы не задвоить сюрприз.
+      </p>
+    </section>
+
+    <!-- Controls Panel: Search, Price Presets, Categories, Status & Sorting -->
+    <section class="controls-panel" aria-label="Фильтры и поиск подарков">
+      <!-- Search & Price Presets Row -->
+      <div class="controls-primary-row">
+        <div class="search-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            id="search-input" 
+            class="search-input" 
+            placeholder="Поиск по названию, бренду или описанию..." 
+            autocomplete="off"
+            aria-label="Поиск подарка"
+          />
+          <button id="search-clear-btn" class="search-clear-btn" type="button" aria-label="Очистить поиск" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="sort-wrapper">
+          <label for="price-filter-select" class="sr-only">Бюджет</label>
+          <select id="price-filter-select" class="sort-select" aria-label="Фильтр по бюджету">
+            <option value="all">Любой бюджет</option>
+            <option value="under-10k">До 10 000 ₽</option>
+            <option value="10k-30k">10 000 – 30 000 ₽</option>
+            <option value="above-30k">От 30 000 ₽</option>
+            <option value="priceless">Символические / Без цены</option>
+          </select>
+          <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Categories & Secondary Controls Row -->
+      <div class="controls-secondary-row">
+        <!-- Category Tabs (Dynamically Populated) -->
+        <nav class="categories-scroll" id="categories-scroll" aria-label="Категории подарков">
+          <button type="button" class="filter-btn active" data-category="all">
+            <span>Все</span>
+          </button>
+        </nav>
+
+        <!-- Status & Sort -->
+        <div class="secondary-controls">
+          <div class="status-toggle" role="group" aria-label="Фильтр по статусу бронирования">
+            <button type="button" class="status-toggle-btn active" data-status="all">Все</button>
+            <button type="button" class="status-toggle-btn" data-status="active">Свободно</button>
+            <button type="button" class="status-toggle-btn" data-status="reserved">Занято</button>
+          </div>
+
+          <div class="sort-wrapper">
+            <label for="sort-select" class="sr-only">Сортировка</label>
+            <select id="sort-select" class="sort-select" aria-label="Сортировка подарков">
+              <option value="default">Сортировка автора</option>
+              <option value="price-asc">Сначала доступные (₽ ↑)</option>
+              <option value="price-desc">Сначала солидные (₽ ↓)</option>
+              <option value="date-desc">Сначала новые</option>
+            </select>
+            <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Grid of Wishlist Items -->
+    <main>
+      <section 
+        id="wishlist-grid" 
+        class="wishlist-grid" 
+        aria-label="Список желаемых подарков"
+        aria-live="polite"
+      >
+        <!-- Populated dynamically via app.js -->
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <p>С любовью и уважением к вашему времени и вкусу.</p>
+      <p class="gold-accent">Никаких обязательств — просто ориентир для тех, кто спрашивал.</p>
+    </footer>
+  </div>
+
+  <!-- Reservation Modal Dialog -->
+  <div 
+    id="reserve-modal" 
+    class="modal-backdrop" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-hidden="true"
+    aria-labelledby="modal-heading"
+  >
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <h3 id="modal-heading">Забронировать подарок</h3>
+          <p id="modal-item-category">Личный выбор</p>
+        </div>
+        <button 
+          id="btn-modal-close" 
+          type="button" 
+          class="modal-close-btn" 
+          aria-label="Закрыть окно"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Gift Preview Info -->
+      <div class="modal-gift-preview">
+        <img 
+          id="modal-item-thumb" 
+          class="modal-preview-thumb" 
+          src="" 
+          alt="" 
+          referrerpolicy="no-referrer"
+        />
+        <div class="modal-preview-info">
+          <div id="modal-item-title" class="modal-preview-title">Название подарка</div>
+          <div id="modal-item-price" class="modal-preview-price">Цена</div>
+        </div>
+      </div>
+
+      <!-- Reservation Form -->
+      <form id="reserve-form" class="modal-form">
+        <div class="form-group">
+          <label for="reserve-name" class="form-label">
+            <span>Ваше имя</span>
+            <span class="req">* обязательно</span>
+          </label>
+          <input 
+            type="text" 
+            id="reserve-name" 
+            name="name" 
+            class="form-input" 
+            placeholder="Например: Саша или Аня из Питера" 
+            required 
+            maxlength="80" 
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="reserve-note" class="form-label">
+            <span>Пожелание или комментарий</span>
+            <span style="color: var(--text-muted); font-size: 0.6875rem;">опционально</span>
+          </label>
+          <textarea 
+            id="reserve-note" 
+            name="note" 
+            class="form-textarea" 
+            placeholder="«Дарю от всей души!», «Купим вместе с ребятами» или просто теплые слова..."
+            maxlength="300"
+          ></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-modal-cancel" class="btn btn-secondary">
+            Отмена
+          </button>
+          <button type="submit" id="btn-modal-submit" class="btn btn-primary">
+            <span>Подтвердить бронь</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lightbox Photo Quick-View Modal -->
+  <div 
+    id="lightbox-modal" 
+    class="modal-backdrop lightbox-backdrop" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-hidden="true"
+    aria-label="Просмотр фотографии подарка"
+  >
+    <div class="lightbox-card">
+      <button 
+        id="btn-lightbox-close" 
+        type="button" 
+        class="lightbox-close-btn" 
+        aria-label="Закрыть полноэкранный просмотр"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="lightbox-image-wrap">
+        <img id="lightbox-img" class="lightbox-img" src="" alt="" referrerpolicy="no-referrer" />
+      </div>
+
+      <div class="lightbox-footer">
+        <div class="lightbox-info">
+          <div id="lightbox-category" class="lightbox-category">Категория</div>
+          <h3 id="lightbox-title" class="lightbox-title">Название подарка</h3>
+          <p id="lightbox-desc" class="lightbox-desc"></p>
+        </div>
+        <div class="lightbox-actions">
+          <div id="lightbox-price" class="lightbox-price">Цена</div>
+          <button id="btn-lightbox-reserve" type="button" class="btn btn-primary">
+            Забронировать
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Container -->
+  <div id="toast-container" class="toast-container" aria-live="assertive"></div>
+
+  <!-- Vanilla Application Script -->
+  <script src="./app.js"></script>
+</body>
+</html>
